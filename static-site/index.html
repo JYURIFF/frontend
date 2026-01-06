@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Resume Generator</h1>
+            <div class="form-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">0% Complete</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="form-section">
+                <form id="resumeForm" novalidate>
+                    <!-- Personal Information -->
+                    <fieldset class="form-group">
+                        <legend>Personal Information</legend>
+                        
+                        <div class="input-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                            <div class="error-message" id="nameError"></div>
+                        </div>
+                        <div class ="input-group">
+                            <label for="suffix">Suffix</label>
+                            <input type="text" id="suffix" name="suffix" required>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                                <div class="error-message" id="phoneError"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="photo">Profile Photo (recommended: square format) *</label>
+                            <input type="file" id="photo" name="photo" accept="image/*">
+                            <div class="file-info">Max size: 2MB. Formats: JPG, PNG, GIF</div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Professional Summary -->
+                    <fieldset class="form-group">
+                        <legend>Professional Summary</legend>
+                        
+                        <div class="input-group">
+                            <label for="summary">Professional Summary *</label>
+                            <textarea id="summary" name="summary" rows="4" required 
+                                placeholder="Brief overview of your professional background, key achievements, and career objectives..."></textarea>
+                            <div class="char-counter">
+                                <span id="summaryCount">0</span>/500 characters
+                            </div>
+                            <div class="error-message" id="summaryError"></div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Work Experience -->
+                    <fieldset class="form-group">
+                        <legend>Work Experience</legend>
+                        
+                        <div class="input-group">
+                            <label for="experience">Work Experience *</label>
+                            <textarea id="experience" name="experience" rows="6" required
+                                placeholder="List your work experience including job titles, companies, dates, and key responsibilities..."></textarea>
+                            <div class="error-message" id="experienceError"></div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Education -->
+                    <fieldset class="form-group">
+                        <legend>Educational Background</legend>
+                        
+                        <div id="educationContainer">
+                            <div class="education-item" data-level="primary">
+                                <div class="education-header">
+                                    <h4>Primary Education</h4>
+                                </div>
+                                <div class="education-content">
+                                    <div class="input-row">
+                                        <div class="input-group flex-2">
+                                            <label for="primaryEducation">Institution & Details</label>
+                                            <textarea id="primaryEducation" name="primaryEducation" rows="2" 
+                                                placeholder="School name, location, achievements..."></textarea>
+                                        </div>
+                                        <div class="input-group flex-1">
+                                            <label for="yearPrimaryEducation">Year Completed</label>
+                                            <input type="text" id="yearPrimaryEducation" name="yearPrimaryEducation" 
+                                                placeholder="e.g., 2015">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="education-item" data-level="secondary">
+                                <div class="education-header">
+                                    <h4>Secondary Education</h4>
+                                </div>
+                                <div class="education-content">
+                                    <div class="input-row">
+                                        <div class="input-group flex-2">
+                                            <label for="secondaryEducation">Institution & Details</label>
+                                            <textarea id="secondaryEducation" name="secondaryEducation" rows="2" 
+                                                placeholder="School name, location, achievements..."></textarea>
+                                        </div>
+                                        <div class="input-group flex-1">
+                                            <label for="yearSecondaryEducation">Year Completed</label>
+                                            <input type="text" id="yearSecondaryEducation" name="yearSecondaryEducation" 
+                                                placeholder="e.g., 2017">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="education-item" data-level="tertiary">
+                                <div class="education-header">
+                                    <h4>Tertiary Education</h4>
+                                    <button type="button" class="remove-education" onclick="toggleEducationItem(this)" 
+                                        title="Remove this education level">
+                                        <span class="hide-text">Hide</span>
+                                        <span class="show-text" style="display:none;">Show</span>
+                                    </button>
+                                </div>
+                                <div class="education-content">
+                                    <div class="input-row">
+                                        <div class="input-group flex-2">
+                                            <label for="tertiaryEducation">Institution & Details</label>
+                                            <textarea id="tertiaryEducation" name="tertiaryEducation" rows="2" 
+                                                placeholder="University name, degree, major, GPA, honors..."></textarea>
+                                        </div>
+                                        <div class="input-group flex-1">
+                                            <label for="yearTertiaryEducation">Year Completed</label>
+                                            <input type="text" id="yearTertiaryEducation" name="yearTertiaryEducation" 
+                                                placeholder="e.g., 2021">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" id="addEducationBtn" class="add-btn">
+                                <span>+</span> Add Additional Education
+                            </button>
+                        </div>
+                    </fieldset>
+
+                    <!-- Skills -->
+                    <fieldset class="form-group">
+                        <legend>Skills & Expertise</legend>
+                        
+                        <div class="input-group">
+                            <label for="skillsInput">Skills *</label>
+                            <div class="skills-input-container">
+                                <input type="text" id="skillsInput" placeholder="Type a skill and press Enter or comma to add">
+                                <div class="skills-tags" id="skillsTags"></div>
+                            </div>
+                            <div class="input-help">Press Enter, Tab, or use commas to separate skills</div>
+                            <textarea id="skills" name="skills" style="display:none;"></textarea>
+                            <div class="error-message" id="skillsError"></div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" id="livePreviewBtn" class="secondary-btn">
+                            <span id="previewBtnText">Enable Live Preview</span>
+                        </button>
+                        <button type="submit" class="primary-btn">
+                            <span class="btn-text">Generate Resume</span>
+                            <span class="btn-loading" style="display:none;">Generating...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="preview-section" id="previewSection">
+                <div id="resumeOutput" class="hidden">
+                    <div class="output-header">
+                        <h2>Your Generated Resume</h2>
+                        <div class="output-controls">
+                            <div class="download-options">
+                                <label for="downloadFormat">Format:</label>
+                                <select id="downloadFormat" aria-label="Download format">
+                                    <option value="pdf">PDF</option>
+                                    <option value="png">PNG</option>
+                                    <option value="jpeg">JPEG</option>
+                                </select>
+                            </div>
+                            <button id="downloadBtn" class="primary-btn">
+                                <span class="btn-text">Download Resume</span>
+                                <span class="btn-loading" style="display:none;">Preparing...</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="resumeContent" class="resume-preview"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success/Error Messages -->
+        <div id="messageContainer" class="message-container">
+            <div id="successMessage" class="message success hidden">
+                <span class="message-icon">✓</span>
+                <span class="message-text"></span>
+            </div>
+            <div id="errorMessage" class="message error hidden">
+                <span class="message-icon">⚠</span>
+                <span class="message-text"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+'use client';'use client';
+
+
+
+import React, { useState } from 'react';import React, { useState } from 'react';
+
+import { Header } from './components/Header';import { Header } from './components/Header';
+
+import { PersonalInfo } from './components/PersonalInfo';import { PersonalInfo } from './components/PersonalInfo';
+
+import { ProfessionalSummary } from './components/ProfessionalSummary';import { ProfessionalSummary } from './components/ProfessionalSummary';
+
+import { WorkExperience } from './components/WorkExperience';import { WorkExperience } from './components/WorkExperience';
+
+import { Education } from './components/Education';import { Education } from './components/Education';
+
+import { FormData } from '@/types/form';import { FormData } from '@/types/form';
+
+
+
+export default function Home() {export default function Home() {
+
+  const [formData, setFormData] = useState<FormData>({});  const [formData, setFormData] = useState<FormData>({});
+
+  const [errors, setErrors] = useState<Record<string, string>>({});  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [progress, setProgress] = useState(0);  const [progress, setProgress] = useState(0);
+
+
+
+  const handleFormUpdate = (field: string, value: any) => {  const handleFormUpdate = (field: string, value: any) => {
+
+    setFormData(prev => ({    setFormData(prev => ({
+
+      ...prev,      ...prev,
+
+      [field]: value      [field]: value
+
+    }));    }));
+
+        
+
+    // Clear error when field is updated    // Clear error when field is updated
+
+    if (errors[field]) {    if (errors[field]) {
+
+      setErrors(prev => {      setErrors(prev => {
+
+        const newErrors = { ...prev };        const newErrors = { ...prev };
+
+        delete newErrors[field];        delete newErrors[field];
+
+        return newErrors;        return newErrors;
+
+      });      });
+
+    }    }
+
+
+
+    // Calculate progress    // Calculate progress
+
+    const requiredFields = ['name', 'email', 'phone', 'summary', 'experience'];    const requiredFields = ['name', 'email', 'phone', 'summary', 'experience'];
+
+    const filledRequiredFields = requiredFields.filter(field =>     const filledRequiredFields = requiredFields.filter(field => 
+
+      formData[field as keyof FormData] &&       formData[field as keyof FormData] && 
+
+      String(formData[field as keyof FormData]).trim() !== ''      String(formData[field as keyof FormData]).trim() !== ''
+
+    );    );
+
+        
+
+    const newProgress = Math.round((filledRequiredFields.length / requiredFields.length) * 100);    const newProgress = Math.round((filledRequiredFields.length / requiredFields.length) * 100);
+
+    setProgress(newProgress);    setProgress(newProgress);
+
+  };  };
+
+
+
+  const handleSubmit = (e: React.FormEvent) => {  const handleSubmit = (e: React.FormEvent) => {
+
+    e.preventDefault();    e.preventDefault();
+
+    // Form validation logic will be added here    // Form validation logic will be added here
+
+    // Generate resume logic will be added here    // Generate resume logic will be added here
+
+  };  };
+
+
+
+  return (  return (
+
+    <div className="container">    <div className="container">
+
+      <Header progress={progress} />      <Header progress={progress} />
+
+            
+
+      <div className="main-content">      <div className="main-content">
+
+        <div className="form-section">        <div className="form-section">
+
+          <form id="resumeForm" onSubmit={handleSubmit} noValidate>          <form id="resumeForm" onSubmit={handleSubmit} noValidate>
+
+            <PersonalInfo            <PersonalInfo
+
+              formData={formData}              formData={formData}
+
+              onUpdate={handleFormUpdate}              onUpdate={handleFormUpdate}
+
+              errors={errors}              errors={errors}
+
+            />            />
+
+            <ProfessionalSummary            <ProfessionalSummary
+
+              formData={formData}              formData={formData}
+
+              onUpdate={handleFormUpdate}              onUpdate={handleFormUpdate}
+
+              errors={errors}              errors={errors}
+
+            />            />
+
+            <WorkExperience            <WorkExperience
+
+              formData={formData}              formData={formData}
+
+              onUpdate={handleFormUpdate}              onUpdate={handleFormUpdate}
+
+              errors={errors}              errors={errors}
+
+            />            />
+
+            <Education            <Education
+
+              formData={formData}              formData={formData}
+
+              onUpdate={handleFormUpdate}              onUpdate={handleFormUpdate}
+
+            />            />
+
+          </form>          </form>
+
+        </div>        </div>
+
+      </div>      </div>
+
+    </div>    </div>
+
+  );  );
+
+}            <ProfessionalSummary
+              formData={formData}
+              onUpdate={handleFormUpdate}
+              errors={errors}
+            />
+            <WorkExperience
+              formData={formData}
+              onUpdate={handleFormUpdate}
+              errors={errors}
+            />
+            <Education
+              formData={formData}
+              onUpdate={handleFormUpdate}
+            />
+          </li>
+          <li className="tracking-[-.01em]">
+            Save and see your changes instantly.
+          </li>
+        </ol>
+
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
+        </div>
+      </main>
+      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/file.svg"
+            alt="File icon"
+            width={16}
+            height={16}
+          />
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/window.svg"
+            alt="Window icon"
+            width={16}
+            height={16}
+          />
+          Examples
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/globe.svg"
+            alt="Globe icon"
+            width={16}
+            height={16}
+          />
+          Go to nextjs.org →
+        </a>
+      </footer>
+    </div>
+  );
+}
