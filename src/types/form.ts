@@ -3,8 +3,6 @@ export interface FormData {
   suffix?: string;
   email?: string;
   phone?: string;
-  // Stored as a data URL (base64) for autosave/preview
-  photo?: string | null;
   summary?: string;
   experience?: string;
   education?: {

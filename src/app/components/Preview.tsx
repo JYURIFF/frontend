@@ -1,34 +1,37 @@
 "use client";
 
-import React, { useRef, useMemo } from 'react';
-import { FormData } from '../../types/form';
+import React, { useRef, useMemo } from "react";
+import { FormData } from "../../types/form";
 
 interface PreviewProps {
   formData: FormData;
 }
 
 export function generateResumeHtml(formData: FormData) {
-  const skills = (formData.skills || []).map(s => `<li>${s}</li>`).join('');
+  const skills = (formData.skills || []).map((s) => `<li>${s}</li>`).join("");
   const education = formData.education || {};
-  const photoImg = formData.photo ? `<img src="${formData.photo}" alt="profile" class="photo"/>` : '';
 
   const educationList = [
-    { level: 'Primary Education', value: education.primary },
-    { level: 'Secondary Education', value: education.secondary },
-    { level: 'Tertiary Education', value: education.tertiary }
-  ].filter(e => e.value).map(e => 
-    `<div class="education-item">
+    { level: "Primary Education", value: education.primary },
+    { level: "Secondary Education", value: education.secondary },
+    { level: "Tertiary Education", value: education.tertiary },
+  ]
+    .filter((e) => e.value)
+    .map(
+      (e) =>
+        `<div class="education-item">
       <h4>${e.level}</h4>
       <div>${e.value}</div>
      </div>`
-  ).join('');
+    )
+    .join("");
 
   return `
     <!doctype html>
     <html>
       <head>
         <meta charset="utf-8" />
-        <title>${formData.name || 'Resume'}</title>
+        <title>${formData.name || "Resume"}</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <style>
           @page {
@@ -66,14 +69,7 @@ export function generateResumeHtml(formData: FormData) {
             font-size: 11pt;
             color: #4b5563;
           }
-          .photo {
-            width: 35mm;
-            height: 35mm;
-            object-fit: cover;
-            border-radius: 2mm;
-            margin-left: 5mm;
-            border: 0.5mm solid #e5e7eb;
-          }
+
           .section {
             margin: 6mm 0;
           }
@@ -143,15 +139,18 @@ export function generateResumeHtml(formData: FormData) {
       <body>
         <div class="header">
           <div class="header-content">
-            <h1>${formData.name || ''}${formData.suffix ? `, ${formData.suffix}` : ''}</h1>
-            <div class="contact">${formData.email || ''} • ${formData.phone || ''}</div>
+            <h1>${formData.name || ""}${
+    formData.suffix ? `, ${formData.suffix}` : ""
+  }</h1>
+            <div class="contact">${formData.email || ""} • ${
+    formData.phone || ""
+  }</div>
           </div>
-          ${photoImg}
         </div>
 
         <div class="section">
           <h2>Professional Summary</h2>
-          <p>${formData.summary || ''}</p>
+          <p>${formData.summary || ""}</p>
         </div>
 
         <div class="section">
@@ -161,15 +160,19 @@ export function generateResumeHtml(formData: FormData) {
 
         <div class="section experience">
           <h2>Work Experience</h2>
-          <p>${(formData.experience || '').replace(/\n/g,'<br/>')}</p>
+          <p>${(formData.experience || "").replace(/\n/g, "<br/>")}</p>
         </div>
 
-        ${educationList ? `
+        ${
+          educationList
+            ? `
           <div class="section">
             <h2>Education</h2>
             ${educationList}
           </div>
-        ` : ''}
+        `
+            : ""
+        }
       </body>
     </html>
   `;
@@ -183,12 +186,17 @@ export function Preview({ formData }: PreviewProps) {
   return (
     <div className="form-group">
       <legend>Preview</legend>
-      <div style={{ marginTop: 8, height: 'calc(100vh - 220px)' }}>
+      <div style={{ marginTop: 8, height: "calc(100vh - 220px)" }}>
         <iframe
           ref={iframeRef}
           title="resume-preview"
           srcDoc={srcDoc}
-          style={{ width: '100%', height: '100%', border: '1px solid #e6e6e6', borderRadius: 6 }}
+          style={{
+            width: "100%",
+            height: "100%",
+            border: "1px solid #e6e6e6",
+            borderRadius: 6,
+          }}
         />
       </div>
     </div>
